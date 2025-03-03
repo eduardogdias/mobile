@@ -1,0 +1,23 @@
+import React from 'react';
+import {View, Text, Image} from 'react-native';
+
+function Principal () {
+  return(
+    <View style={{ flex: 1, backgroundColor: 'rgb(33, 33, 33)', alignItems: 'center', justifyContent: 'center'}}>
+
+      <Text style={{ fontSize: 25, fontWeight: '600', marginBottom: 25, backgroundColor: '#e21457', padding: 10, borderRadius: 20, color: 'black', width: '80%', textAlign: 'center'}}>Eduardo Guilherme Dias</Text>
+
+      <Image source={{ uri: 'https://github.com/eduardogdias.png' }} style={{ width: 150, height: 150, marginBottom: 20 }}/>
+   
+      <Text style={{ fontSize: 20 , marginTop: 20, marginBottom: 25, color: '#e21457', fontWeight: "bold" }}>Informações</Text> 
+
+
+      <Text style={{ fontSize: 20, marginBottom: 25, backgroundColor: '#e21457', padding: 10, borderRadius: 20, color: 'black', textAlign: 'center', width: '80%'}}>Faculdade de Informática e Administração Paulista - FIAP</Text>
+      <Text style={{ fontSize: 20, marginBottom: 25, backgroundColor: '#e21457', padding: 10, borderRadius: 20, color: 'black', textAlign: 'center', width: '80%'}}>Análise e Desenvolvimento de Sistemas</Text>
+      <Text style={{ fontSize: 20, marginBottom: 25, backgroundColor: '#e21457', padding: 10, borderRadius: 20, color: 'black', textAlign: 'center', width: '80%'}}>2TDSPV</Text>
+    
+    
+    </View>
+  )
+}
+export default Principal;
