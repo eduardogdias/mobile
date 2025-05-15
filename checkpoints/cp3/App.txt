@@ -1,0 +1,133 @@
+import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
+import { Button, FlatList, ListRenderItemInfo, StyleSheet, Text, TextInput, View } from 'react-native';
+
+const [Navigator, Screen] = createBottomTabsNavigator()
+
+interface livro{
+  id : number
+  titulo : string
+  autor : string
+  pagina : number
+}
+
+
+
+const Formulario = (props : any)  : React.ReactElement => {
+  const [id_form, setId_form] = useState<string>("")
+  const [titulo_form, setTitulo_form] = useState<string>("")
+  const [autor_form, setAutor_form] = useState<string>("")
+  const [pagina_form, setPagina_form] = useState<string>("")
+
+  function carregar(){
+    const retorno = async.getItem("objeto")
+      .then((retorno : any)=>{
+        setId_form(retorno.id)
+        setTitulo_form(retorno.titulo)
+        setAutor_form(retorno.autor)
+        setPagina_form(retorno.pagina)
+    })
+    .carch((err :any)=>{console.log("Falha ao carregar objeto! Erro: ", err)
+  }
+
+  return(
+    <View>
+      <View style={estilos.campo}>
+        <Text style={estilos.texto_campo}>Id</Text>
+        <TextInput style={estilos.input_campo} onChangeText={setId_form}></TextInput>
+      </View>
+
+      <View style={estilos.campo}>
+        <Text style={estilos.texto_campo}>Titulo</Text>
+        <TextInput style={estilos.input_campo} onChangeText={setTitulo_form}></TextInput>
+      </View>
+
+      <View style={estilos.campo}>
+        <Text style={estilos.texto_campo}>Autor</Text>
+        <TextInput style={estilos.input_campo} onChangeText={setAutor_form}></TextInput>
+      </View>
+
+      <View style={estilos.campo}>
+        <Text style={estilos.texto_campo}>Páginas</Text>
+        <TextInput style={estilos.input_campo} onChangeText={setPagina_form}></TextInput>
+      </View>
+
+      <Button title='Cadastrar' onPress={()=>{
+        props.inserir({id : parseInt(id_form), titulo : titulo_form, autor = autor_form, pagina = parseInt(pagina_form)})
+      }}/>
+      <Button title='Carregar' onPress={carregar()}/>
+        
+    </View>
+  )
+}
+
+
+
+const Listagem = (props: any) : React.ReactElement =>{
+  return (
+
+    <View style={{flex: 2, margin: 20, borderWidth: 5, borderColor: "pink"}}>
+      <FlatList data={props.lista} renderItem={(props : ListRenderItemInfo)=>{
+        <View>
+          <Text style={{fontWeight: "bold" , fontSize:20}}>{props.listagem.id}</Text>
+          <Text style={estilos.lista}>{props.listagem.titulo}</Text>
+          <Text style={estilos.lista}>{props.listagem.autor}</Text>
+          <Text style={estilos.lista}>{props.listagem.pagina}</Text>
+        </View>
+      }}/>
+    </View>
+
+  )
+}
+
+export default function Principal() {
+  const [lista, setLista] = useState<livro[]>()
+
+  function inserir(obj : livro){
+    setLista([... lista], obj)
+    
+    async.setItem{"objeto"; JSON.string(obj)}
+    .then(()=>{console.log("Objeto cadastrado com sucesso!")})
+    .carch((err :any)=>{console.log("Falha ao cadastrar objeto! Erro: ", err)})
+
+  }
+
+  return (
+    <Navigator>
+      <View style={{backgroundColor: "purple", flex: 1}}>
+
+        <Text style={{color: "white", flex: 2, fontSize: 35, justifyContent: "center"}}>Livro</Text>
+
+        <Screen name='formulario'>
+          <Formulario func={inserir()} navegacao={navigate}/>
+        </Screen>
+
+        <Screen name='listagem'>
+          <Listagem listagem={lista} navegacao={navigate}/>
+        </Screen>
+
+      </View>
+    </Navigator>
+  )
+}
+
+const estilos = StyleSheet.create({
+  lista : {
+    color: "pink",
+    fontSize:13
+  },
+  campo : {
+    display: "flex",
+    justifyContent: 'space-between',
+    width: "100%",
+  },
+  texto_campo : {
+    color: "white"
+  },
+  input_campo : {
+    backgroundColor: "white",
+    borderRadius: 10,
+    width: 100,
+    height: 20
+  },
+})
